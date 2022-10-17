@@ -162,8 +162,8 @@ QEMU
 ----
 
 ```
-# Install QEMU for your target platform, e.g. x86
-sudo apt install qemu-system-x86
+# Install QEMU for your target platform, e.g. x86 and ninja-build
+sudo apt install qemu-system-x86 ninja-build
 
 # Build release build and start with QEMU
 cd src/mainboard/emulation/qemu-q35 && make run
