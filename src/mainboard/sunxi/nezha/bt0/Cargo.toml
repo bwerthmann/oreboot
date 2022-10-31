@@ -15,6 +15,7 @@ embedded-hal = "=1.0.0-alpha.8"
 nb = "1"
 spin = "0.9"
 ufmt = "0.1"
+capsules = { version = "=0.1.0", git = "https://github.com/tock/tock" }
 
 [dependencies.oreboot-soc]
 path = "../../../../soc"
