@@ -22,7 +22,7 @@ path = "../../../../soc"
 features = ["sunxi_d1"]
 
 [features]
-default = []
+default = ["nezha"]
 
 nezha = ["nand"]
 lichee = ["nor"]
