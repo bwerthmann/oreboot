@@ -5,6 +5,7 @@
 #![no_std]
 #![no_main]
 
+use capsules::sdcard;
 use core::intrinsics::transmute;
 use core::ptr::{read_volatile, write_volatile};
 use core::{arch::asm, panic::PanicInfo};
@@ -464,7 +465,7 @@ extern "C" fn main() -> usize {
          * https://github.com/tock/tock/blob/master/capsules/src/sdcard.rs
          * https://github.com/rust-embedded-community/embedded-sdmmc-rs#using-the-crate
          * https://docs.rs/embedded-sdmmc/latest/embedded_sdmmc/
-        
+
          ## D1 Specific:
 
          * https://dev.to/xphoniex/how-to-call-c-code-from-rust-56do
@@ -547,7 +548,7 @@ extern "C" fn main() -> usize {
             smhc0.smhc_cmd.write(|w| w.bits(0x80000002 | flags));
         }
         println!("...done");
-        
+
         let card_present = smhc0.smhc_status.read().card_present().is_present();
         println!("SD card present? {}", card_present);
 
