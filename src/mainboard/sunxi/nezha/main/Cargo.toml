@@ -14,6 +14,7 @@ lzss = { version = "0.8", default-features = false }
 nb = "1"
 riscv = "0.9.0"
 rustsbi = { version = "=0.3.0-alpha.4", features = ["legacy"] }
+sbi-spec = "0.0.4"
 # todo: a new package oreboot-console
 spin = "0.9" # todo: remove when we have a console package
 vcell = "0.1.3"
