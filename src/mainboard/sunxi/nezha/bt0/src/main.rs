@@ -527,7 +527,9 @@ fn read();
 /// Card Detect
 ///
 */
-fn smhc_init(smhc0: SMHC0) {
+fn smhc_init(smhc0: SMHC0) {}
+
+fn smhc_init_old(smhc0: SMHC0) {
     let div = smhc0.smhc_clkdiv.read().cclk_div().bits();
     println!("smhc0 clk div {:x}", div);
     // STEP 0: celebration of calibration
