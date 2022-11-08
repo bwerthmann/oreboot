@@ -629,6 +629,83 @@ fn smhc_init_old(smhc0: SMHC0) {
     println!("SD card {:02x}{:02x}{:02x}{:02x}", r0, r1, r2, r3);
 }
 
+// ************** Begin port *******
+// Port from https://github.com/orangecms/linux/blob/5.19-smaeul-plus-dts/drivers/mmc/host/sunxi-mmc.c
+// at 1875b10fc1e966475949782610ca578a87ee3d06
+
+/// Read from a host at register
+/// TODO: lock down type to enum registers/offsets
+fn mmc_readl(host: SMHC0, reg: u32) {
+    /*
+     #define mmc_readl(host, reg) \
+      readl((host)->reg_base + SDXC_##reg)
+    */
+}
+
+fn mmc_writel(host: SMHC0, reg: u32, value: u32) {
+    /*
+       #define mmc_writel(host, reg, value) \
+       writel((value), (host)->reg_base + SDXC_##reg)
+    */
+}
+
+fn sunxi_mmc_reset_host(host: SMHC0) {
+    /*
+    unsigned long expire = jiffies + msecs_to_jiffies(250);
+    u32 rval;
+
+    mmc_writel(host, REG_GCTRL, SDXC_HARDWARE_RESET);
+    do {
+        rval = mmc_readl(host, REG_GCTRL);
+    } while (time_before(jiffies, expire) && (rval & SDXC_HARDWARE_RESET));
+
+    if (rval & SDXC_HARDWARE_RESET) {
+        dev_err(mmc_dev(host->mmc), "fatal err reset timeout\n");
+        return -EIO;
+    }
+
+    return 0
+    */
+}
+
+fn sunxi_mmc_init_host(host: SMHC0) {
+    /*
+         u32 rval;
+
+    if (sunxi_mmc_reset_host(host))
+        return -EIO;
+
+    /*
+     * Burst 8 transfers, RX trigger level: 7, TX trigger level: 8
+     *
+     * TODO: sun9i has a larger FIFO and supports higher trigger values
+     */
+    mmc_writel(host, REG_FTRGL, 0x20070008);
+    /* Maximum timeout value */
+    mmc_writel(host, REG_TMOUT, 0xffffffff);
+    /* Unmask SDIO interrupt if needed */
+    mmc_writel(host, REG_IMASK, host->sdio_imask);
+    /* Clear all pending interrupts */
+    mmc_writel(host, REG_RINTR, 0xffffffff);
+    /* Debug register? undocumented */
+    mmc_writel(host, REG_DBGC, 0xdeb);
+    /* Enable CEATA support */
+    mmc_writel(host, REG_FUNS, SDXC_CEATA_ON);
+    /* Set DMA descriptor list base address */
+    mmc_writel(host, REG_DLBA, host->sg_dma >> host->cfg->idma_des_shift);
+
+    rval = mmc_readl(host, REG_GCTRL);
+    rval |= SDXC_INTERRUPT_ENABLE_BIT;
+    /* Undocumented, but found in Allwinner code */
+    rval &= ~SDXC_ACCESS_DONE_DIRECT;
+    mmc_writel(host, REG_GCTRL, rval);
+
+    return 0;
+    */
+}
+
+// ************** End port *******
+
 extern "C" fn main() -> usize {
     // there was configure_ccu_clocks, but ROM code have already done configuring for us
     let p = Peripherals::take().unwrap();
