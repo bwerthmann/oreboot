@@ -527,8 +527,13 @@ fn read();
 /// Card Detect
 ///
 */
-fn smhc_init(smhc0: SMHC0) {}
 
+/// Implementation Switch
+fn smhc_init(smhc0: SMHC0) {
+    smhc_init_old(smhc0)
+}
+
+/// Prior work from Danial and Ben hacking
 fn smhc_init_old(smhc0: SMHC0) {
     let div = smhc0.smhc_clkdiv.read().cclk_div().bits();
     println!("smhc0 clk div {:x}", div);
