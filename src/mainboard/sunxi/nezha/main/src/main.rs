@@ -22,7 +22,6 @@ use core::panic::PanicInfo;
 use core::{
     arch::asm,
     ptr::{read_volatile, write_volatile},
-    slice,
 };
 use embedded_hal::digital::blocking::OutputPin;
 use embedded_hal::serial::nb::Write;
@@ -39,7 +38,7 @@ use rustsbi::{legacy_stdio::LegacyStdio, print};
 const MEM: usize = 0x4000_0000;
 
 // see ../fixed-dtfs.dts
-const PAYLOAD_OFFSET: usize = 0x2_0000;
+// const PAYLOAD_OFFSET: usize = 0x2_0000;
 const PAYLOAD_SIZE: usize = 0x20_0000; // 2 MB
 const PAYLOAD_ADDR: usize = MEM + 0x20_0000;
 
